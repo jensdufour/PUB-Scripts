@@ -1,3 +1,4 @@
-# Reg2CI (c) 2022 by Roger Zander
 if((Test-Path -LiteralPath "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location") -ne $true) {  New-Item "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -force -ea SilentlyContinue };
 New-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location' -Name 'Value' -Value 'Allow' -PropertyType String -Force -ea SilentlyContinue;
+if((Test-Path -LiteralPath "HKLM:\SYSTEM\CurrentControlSet\Services\tzautoupdate") -ne $true) {  New-Item "HKLM:\SYSTEM\CurrentControlSet\Services\tzautoupdate" -force -ea SilentlyContinue };
+New-ItemProperty -LiteralPath 'HKLM:\SYSTEM\CurrentControlSet\Services\tzautoupdate' -Name 'Start' -Value 3 -PropertyType DWord -Force -ea SilentlyContinue;
