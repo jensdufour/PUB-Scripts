@@ -1,19 +1,27 @@
-$RegistryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location"
-$RegistryProperty = "Value"
-$RegistryValue = "Allow"
+try{
+    $RegistryPath1 = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location"
+    $RegistryProperty1 = "Value"
+    $RegistryValue1 = "Allow"
 
-if (!(Test-Path -LiteralPath $RegistryPath)) {
-    New-Item -Path $RegistryPath -Force -ErrorAction SilentlyContinue
+    if (!(Test-Path -LiteralPath $RegistryPath1)) {
+        New-Item -Path $RegistryPath1 -Force -ErrorAction SilentlyContinue
+    }
+
+    New-ItemProperty -Path $RegistryPath1 -Name $RegistryProperty1 -Value $RegistryValue1 -PropertyType String -Force -ErrorAction SilentlyContinue
+
+    $ServicePath2 = "HKLM:\SYSTEM\CurrentControlSet\Services\tzautoupdate"
+    $ServiceProperty2 = "Start"
+    $ServiceValue2 = 3
+
+    if (!(Test-Path -LiteralPath $ServicePath2)) {
+        New-Item -Path $ServicePath2 -Force -ErrorAction SilentlyContinue
+    }
+
+    New-ItemProperty -Path $ServicePath2 -Name $ServiceProperty2 -Value $ServiceValue2 -PropertyType DWord -Force -ErrorAction SilentlyContinue
+    exit 0
 }
-
-New-ItemProperty -Path $RegistryPath -Name $RegistryProperty -Value $RegistryValue -PropertyType String -Force -ErrorAction SilentlyContinue
-
-$ServicePath = "HKLM:\SYSTEM\CurrentControlSet\Services\tzautoupdate"
-$ServiceProperty = "Start"
-$ServiceValue = 3
-
-if (!(Test-Path -LiteralPath $ServicePath)) {
-    New-Item -Path $ServicePath -Force -ErrorAction SilentlyContinue
+catch{
+    $errMsg = $_.Exception.Message
+    Write-host $errMsg
+    exit 1
 }
-
-New-ItemProperty -Path $ServicePath -Name $ServiceProperty -Value $ServiceValue -PropertyType DWord -Force -ErrorAction SilentlyContinue
